@@ -14,13 +14,20 @@ export const useNotifications = (events: Event[]) => {
 
     setNotifications((prev) => [
       ...prev,
-      ...upcomingEvents.map((event) => ({
-        id: event.id,
-        message: createNotificationMessage(event),
-      })),
+      ...upcomingEvents
+        .filter((event) => !prev.some((notification) => notification.id === event.id))
+        .map((event) => ({
+          id: event.id,
+          message: createNotificationMessage(event),
+        })),
     ]);
 
-    setNotifiedEvents((prev) => [...prev, ...upcomingEvents.map(({ id }) => id)]);
+    setNotifiedEvents((prev) => [
+      ...prev,
+      ...upcomingEvents
+        .filter((event) => !prev.some((notificationId) => notificationId === event.id))
+        .map(({ id }) => id),
+    ]);
   };
 
   const removeNotification = (index: number) => {
