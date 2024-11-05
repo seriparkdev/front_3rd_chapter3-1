@@ -10,7 +10,7 @@
       "location": "회의실 A",
       "category": "업무",
       "repeat": { "type": "none", "interval": 0 },
-      "notificationTime": 1
+      "notificationTime": 60
     },
     {
       "id": "09702fb3-a478-40b3-905e-9ab3c8849dcd",
