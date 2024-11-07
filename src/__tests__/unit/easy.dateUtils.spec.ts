@@ -1,3 +1,6 @@
+import { expect } from 'vitest';
+
+import { events } from '../../__mocks__/response/test_events.json';
 import { Event } from '../../types';
 import {
   fillZero,
@@ -10,8 +13,6 @@ import {
   getWeeksAtMonth,
   isDateInRange,
 } from '../../utils/dateUtils';
-import { expect } from 'vitest';
-import { events } from '../../__mocks__/response/test_events.json';
 
 const mockEvents = events as Event[];
 

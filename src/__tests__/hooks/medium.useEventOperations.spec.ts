@@ -120,8 +120,8 @@ it("새로 정의된 'title', 'endTime' 기준으로 적절하게 일정이 업�
 
   const updatedEventResult = result.current.events.find((event) => event.id === updatedEvent.id);
 
-  expect(updatedEventResult?.title).toStrictEqual(updatedEvent.title);
-  expect(updatedEventResult?.endTime).toStrictEqual(updatedEvent.endTime);
+  expect(updatedEventResult?.title).toEqual(updatedEvent.title);
+  expect(updatedEventResult?.endTime).toEqual(updatedEvent.endTime);
 });
 
 it('존재하는 이벤트 삭제 시 에러없이 아이템이 삭제된다.', async () => {

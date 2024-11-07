@@ -4,8 +4,9 @@ import { expect } from 'vitest';
 import { events } from '../../__mocks__/response/test_events.json';
 import { useNotifications } from '../../hooks/useNotifications.ts';
 import { Event } from '../../types.ts';
-import { formatDate } from '../../utils/dateUtils.ts';
-import { parseHM } from '../utils.ts';
+// TODO: 사용해서 테스트 수정하기
+// import { formatDate } from '../../utils/dateUtils.ts';
+// import { parseHM } from '../utils.ts';
 
 const mockEvents = events as Event[];
 
