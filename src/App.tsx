@@ -1,5 +1,4 @@
 import { Box, Flex, VStack, useToast } from '@chakra-ui/react';
-import { useState } from 'react';
 
 import { CalendarView } from './components/CalendarView';
 import { EventForm } from './components/EventForm';
@@ -11,6 +10,7 @@ import { useCalendarView } from './hooks/useCalendarView';
 import { useEventForm } from './hooks/useEventForm';
 import { useEventOperations } from './hooks/useEventOperations';
 import { useNotifications } from './hooks/useNotifications';
+import { useOverlapping } from './hooks/useOverlapping.ts';
 import { useSearch } from './hooks/useSearch';
 import { Event, EventForm as EventFormType } from './types';
 import { findOverlappingEvents } from './utils/eventOverlap';
@@ -56,9 +56,8 @@ function App() {
   const { notifications, notifiedEvents, setNotifications } = useNotifications(events);
   const { view, setView, currentDate, holidays, navigate } = useCalendarView();
   const { searchTerm, filteredEvents, setSearchTerm } = useSearch(events, currentDate, view);
-
-  const [isOverlapDialogOpen, setIsOverlapDialogOpen] = useState(false);
-  const [overlappingEvents, setOverlappingEvents] = useState<Event[]>([]);
+  const { overlappingEvents, alertOverlappingEvents, isOverlapDialogOpen, closeDialog } =
+    useOverlapping();
 
   const toast = useToast();
 
@@ -102,8 +101,7 @@ function App() {
 
     const overlapping = findOverlappingEvents(eventData, events);
     if (overlapping.length > 0) {
-      setOverlappingEvents(overlapping);
-      setIsOverlapDialogOpen(true);
+      alertOverlappingEvents(overlapping);
     } else {
       await saveEvent(eventData);
       resetForm();
@@ -111,7 +109,7 @@ function App() {
   };
 
   const handleOverlapConfirm = async () => {
-    setIsOverlapDialogOpen(false);
+    closeDialog();
     await saveEvent({
       id: editingEvent?.id,
       title,
@@ -189,7 +187,7 @@ function App() {
 
       <OverlapDialog
         isOpen={isOverlapDialogOpen}
-        onClose={() => setIsOverlapDialogOpen(false)}
+        onClose={closeDialog}
         overlappingEvents={overlappingEvents}
         onConfirm={handleOverlapConfirm}
       />
