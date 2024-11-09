@@ -2,7 +2,8 @@ import { useInterval } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import { Event } from '../types';
-import { createNotificationMessage, getUpcomingEvents } from '../utils/notificationUtils';
+import { createNotifications } from '../utils/notificationUtil.ts';
+import { getUpcomingEvents } from '../utils/notificationUtils';
 
 export const useNotifications = (events: Event[]) => {
   const [notifications, setNotifications] = useState<{ id: string; message: string }[]>([]);
@@ -12,15 +13,7 @@ export const useNotifications = (events: Event[]) => {
     const now = new Date();
     const upcomingEvents = getUpcomingEvents(events, now, notifiedEvents);
 
-    setNotifications((prev) => [
-      ...prev,
-      ...upcomingEvents
-        .filter((event) => !prev.some((notification) => notification.id === event.id))
-        .map((event) => ({
-          id: event.id,
-          message: createNotificationMessage(event),
-        })),
-    ]);
+    setNotifications((prev) => createNotifications(upcomingEvents, prev));
 
     setNotifiedEvents((prev) => [
       ...prev,
